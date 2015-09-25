@@ -1,4 +1,4 @@
-import requests, re, json, time, random
+import requests, re, json, time
 requests.packages.urllib3.disable_warnings()
 
 url = 'https://polldaddy.com/poll/'
