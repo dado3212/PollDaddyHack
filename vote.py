@@ -20,7 +20,7 @@ def vote(form, value, times):
 	for i in xrange(1,times+1):
 		b = vote_once(form, value)
 		if not b:
-			print "Voted (time number " + str(times) + ")!"
+			print "Voted (time number " + str(i) + ")!"
 			time.sleep(3)
 		else:
 			print "Locked.  Sleeping for 60 seconds."
