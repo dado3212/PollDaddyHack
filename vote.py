@@ -1,4 +1,4 @@
-import requests, re, json, time
+import requests, re, json, time, random
 requests.packages.urllib3.disable_warnings()
 
 # Created by Alex Beals
@@ -80,7 +80,7 @@ def vote(form, value, times):
 		# If successful, print that out, else try waiting for 60 seconds (rate limiting)
 		if not b:
 			print "Voted (time number " + str(i) + ")!"
-			time.sleep(random.uniform(3, 13))
+			time.sleep(random.uniform(3, 23))
 		else:
 			print "Locked.  Sleeping for 60 seconds."
 			i-=1
