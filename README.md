@@ -3,6 +3,7 @@
 This is pretty easy to use.  Just download the Python script, and customize the variables for what form/answer/number of votes.  
 
 It needs Python 2.7.6.
+Also be sure to do pip2.7 install requests
 
 ### Disclaimer
 As of February 20th, 2016, this poll should work on polls that do not allow multiple votes from one person.

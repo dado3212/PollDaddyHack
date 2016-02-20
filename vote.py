@@ -41,7 +41,7 @@ def choose_proxy():
 
 def vote_once(form, value):
     
-	c = requests.Session()
+    c = requests.Session()
     #Chooses useragent randomly
     choose_useragent()
     redirect = {"Referer": base_url + str(form) + "/", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8", "User-Agent": current_useragent, "Upgrade-Insecure-Requests":"1", "Accept-Encoding": "gzip, deflate, sdch", "Accept-Language": "en-US,en;q=0.8"}
@@ -80,7 +80,7 @@ def vote(form, value, times):
 		# If successful, print that out, else try waiting for 60 seconds (rate limiting)
 		if not b:
 			print "Voted (time number " + str(i) + ")!"
-			time.sleep(3)
+			time.sleep(random.uniform(3, 13))
 		else:
 			print "Locked.  Sleeping for 60 seconds."
 			i-=1
