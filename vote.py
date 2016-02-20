@@ -86,8 +86,8 @@ def vote(form, value, times):
             time.sleep(60)
 
 # Initialize these to the specific form and how often you want to vote
-poll_id = 9313135
-answer_id = 42472863
+poll_id = 0
+answer_id = 0
 number_of_votes = 10
 
 
