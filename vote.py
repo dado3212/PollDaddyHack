@@ -5,19 +5,19 @@ requests.packages.urllib3.disable_warnings()
 # Created by Alex Beals
 # Last updated: February 20, 2016
 
-base_url = 'https://polldaddy.com/poll/'
+base_url = "https://polldaddy.com/poll/"
 redirect = ""
 
 useragents = []
-current_useragent = ''
+current_useragent = ""
 
 proxies = []
-current_proxy = {'http':''}
+current_proxy = {"http":""}
 current_proxy_num = -1
 
 
 def get_all_useragents():
-    f = open('useragent.txt', 'r')
+    f = open("useragent.txt", "r")
     for line in f:
         useragents.append(line.rstrip('\n').rstrip('\r'))
     f.close()
@@ -28,7 +28,7 @@ def choose_useragent():
     #print current_useragent
 
 def get_all_proxies():
-    f = open('proxy.txt', 'r')
+    f = open("proxy.txt", "r")
     for line in f:
         proxies.append(line.rstrip('\n').rstrip('\r'))
     f.close()
@@ -36,8 +36,7 @@ def get_all_proxies():
 def choose_proxy():
     k = random.randint(0, len(proxies)-1)
     current_num = k
-    current_proxy['http'] = proxies[k]
-    #print current_proxy
+    current_proxy["http"] = proxies[k]
 
 
 def vote_once(form, value):
@@ -51,9 +50,10 @@ def vote_once(form, value):
     try:
         init = c.get(base_url + str(form) + "/", headers=redirect, verify=False, proxies=current_proxy)
     except:
-        print 'error with proxy'
+        print "error with proxy"
         #proxies.remove(current_proxy_num)
         return None
+
     # Search for the data-vote JSON object
     data = re.search("data-vote=\"(.*?)\"",init.text).group(1).replace('&quot;','"')
     data = json.loads(data)
@@ -64,22 +64,27 @@ def vote_once(form, value):
     try:
         send = c.get(request, headers=redirect, verify=False, proxies=current_proxy)
     except:
-        print 'error with proxy'
+        print "error with proxy"
         #proxies.remove(current_proxy_num)
         return None
     
-    return ('revoted' in send.url)
+    return ("revoted" in send.url)
 
-def vote(form, value, times):
+def vote(form, value, times, wait_min = None, wait_max = None):
     global redirect
-    #redirect = {"Referer": base_url + str(form) + "/", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8", "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36", "Upgrade-Insecure-Requests":"1", "Accept-Encoding": "gzip, deflate, sdch", "Accept-Language": "en-US,en;q=0.8"}
     # For each voting attempt
-    for i in xrange(1,times+1):
+    for i in xrange(1, times+1):
         b = vote_once(form, value)
         # If successful, print that out, else try waiting for 60 seconds (rate limiting)
         if not b:
-            #print "Voted (time number " + str(i) + ")!"
-            time.sleep(random.uniform(3, 13))
+            # Randomize timing if set
+            if wait_min and wait_max:
+                seconds = random.randint(wait_min, wait_max)
+            else:
+                seconds = 3
+
+            print "Voted (time number " + str(i) + ")!"
+            time.sleep(seconds)
         else:
             print "Locked.  Sleeping for 60 seconds."
             i-=1
@@ -89,8 +94,9 @@ def vote(form, value, times):
 poll_id = 0
 answer_id = 0
 number_of_votes = 10
-
+wait_min = None
+wait_max = None
 
 get_all_proxies()
 get_all_useragents()
-vote(poll_id, answer_id, number_of_votes)
+vote(poll_id, answer_id, number_of_votes, wait_min, wait_max)
