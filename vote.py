@@ -90,6 +90,7 @@ def vote(form, value, times, wait_min = None, wait_max = None):
             print "Locked.  Sleeping for 60 seconds."
             i-=1
             time.sleep(60)
+        i += 1
 
 # Initialize these to the specific form and how often you want to vote
 poll_id = 0
