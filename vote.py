@@ -44,7 +44,7 @@ def vote_once(form, value):
     #Chooses useragent randomly
     choose_useragent()
     redirect = {"Referer": base_url + str(form) + "/", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8", "User-Agent": current_useragent, "Upgrade-Insecure-Requests":"1", "Accept-Encoding": "gzip, deflate, sdch", "Accept-Language": "en-US,en;q=0.8"}
-    
+
     # Chooses proxy randomly
     choose_proxy()
     try:
@@ -67,13 +67,14 @@ def vote_once(form, value):
         print "error with proxy"
         #proxies.remove(current_proxy_num)
         return None
-    
+
     return ("revoted" in send.url)
 
 def vote(form, value, times, wait_min = None, wait_max = None):
     global redirect
     # For each voting attempt
-    for i in xrange(1, times+1):
+    i = 1
+    while i < times+1:
         b = vote_once(form, value)
         # If successful, print that out, else try waiting for 60 seconds (rate limiting)
         if not b:
@@ -89,6 +90,7 @@ def vote(form, value, times, wait_min = None, wait_max = None):
             print "Locked.  Sleeping for 60 seconds."
             i-=1
             time.sleep(60)
+        i += 1
 
 # Initialize these to the specific form and how often you want to vote
 poll_id = 0
